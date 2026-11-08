@@ -1,0 +1,400 @@
+/* ========================================
+   YouTube Live Chat Filter - Popup Styles
+   ======================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', 'Meiryo', sans-serif;
+  font-size: 13px;
+  color: #e0e0e0;
+  background-color: #1a1a1a;
+  width: 360px;
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+.container {
+  padding: 12px;
+}
+
+/* ヘッダー */
+.header {
+  text-align: center;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #333;
+}
+
+.header h1 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ff4444;
+}
+
+/* セクション */
+.section {
+  margin-bottom: 14px;
+  padding: 10px;
+  background-color: #252525;
+  border-radius: 8px;
+}
+
+.section h2 {
+  font-size: 12px;
+  font-weight: 600;
+  color: #aaa;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* 自分のチャンネル登録 */
+.self-register {
+  text-align: center;
+}
+
+.info-text {
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.input-group {
+  display: flex;
+  gap: 6px;
+}
+
+.input-group input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background-color: #333;
+  color: #fff;
+  font-size: 12px;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #ff4444;
+}
+
+.hint {
+  font-size: 11px;
+  color: #666;
+  margin-top: 6px;
+}
+
+.self-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.channel-id {
+  font-family: monospace;
+  font-size: 11px;
+  color: #888;
+  background-color: #333;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+/* ボタン */
+.btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: #ff4444;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #ff5555;
+}
+
+.btn-primary:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+}
+
+.btn-small {
+  padding: 4px 10px;
+  font-size: 11px;
+  background-color: #444;
+  color: #ddd;
+}
+
+.btn-small:hover {
+  background-color: #555;
+}
+
+.btn-add {
+  padding: 3px 8px;
+  font-size: 10px;
+  background-color: #2d7d2d;
+  color: #fff;
+}
+
+.btn-add:hover {
+  background-color: #3a9a3a;
+}
+
+.btn-block {
+  padding: 3px 8px;
+  font-size: 10px;
+  background-color: #7d2d2d;
+  color: #fff;
+}
+
+.btn-block:hover {
+  background-color: #9a3a3a;
+}
+
+.btn-remove {
+  padding: 3px 8px;
+  font-size: 10px;
+  background-color: #555;
+  color: #fff;
+}
+
+.btn-remove:hover {
+  background-color: #666;
+}
+
+/* ステータスメッセージ */
+.status-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background-color: #333;
+  border-radius: 4px;
+  color: #ffaa00;
+}
+
+.status-info {
+  color: #66b3ff;
+  background-color: #1a2a3a;
+}
+
+.status-icon {
+  font-size: 16px;
+}
+
+/* トグルスイッチ */
+.toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #444;
+  transition: 0.3s;
+  border-radius: 24px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #fff;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.toggle input:checked+.toggle-slider {
+  background-color: #ff4444;
+}
+
+.toggle input:checked+.toggle-slider:before {
+  transform: translateX(20px);
+}
+
+.toggle-label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.owner-info {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid #333;
+  font-size: 11px;
+}
+
+.owner-info .label {
+  color: #888;
+}
+
+/* ユーザーリスト */
+.user-list {
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.user-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.user-list::-webkit-scrollbar-track {
+  background: #333;
+  border-radius: 3px;
+}
+
+.user-list::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 3px;
+}
+
+.user-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  background-color: #333;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.user-item:last-child {
+  margin-bottom: 0;
+}
+
+.user-item-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.user-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #555;
+  flex-shrink: 0;
+}
+
+.user-name {
+  font-size: 12px;
+  color: #ddd;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.empty-message {
+  text-align: center;
+  color: #666;
+  padding: 10px;
+  font-size: 12px;
+}
+
+/* 設定 */
+.setting-item {
+  margin-bottom: 10px;
+}
+
+.setting-item:last-child {
+  margin-bottom: 0;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #ff4444;
+}
+
+.setting-label {
+  display: block;
+  color: #aaa;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+
+select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background-color: #333;
+  color: #fff;
+  font-size: 12px;
+}
+
+select:focus {
+  outline: none;
+  border-color: #ff4444;
+}
+
+/* フッター */
+.footer {
+  text-align: center;
+  padding-top: 8px;
+  border-top: 1px solid #333;
+}
+
+.version {
+  font-size: 10px;
+  color: #666;
+}
+
+/* ローディング */
+.loading {
+  opacity: 0.5;
+  pointer-events: none;
+}

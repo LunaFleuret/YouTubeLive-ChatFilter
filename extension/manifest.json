@@ -1,0 +1,61 @@
+{
+    "manifest_version": 3,
+    "name": "YouTube Live Chat Filter",
+    "version": "1.1.0",
+    "description": "YouTubeライブチャットで自分以外のコメントをフィルタリング",
+    "permissions": [
+        "storage",
+        "tabs",
+        "webNavigation"
+    ],
+    "host_permissions": [
+        "https://www.youtube.com/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.youtube.com/live_chat*",
+                "https://www.youtube.com/live_chat_replay*"
+            ],
+            "js": [
+                "injectScript.js"
+            ],
+            "world": "MAIN",
+            "run_at": "document_idle",
+            "all_frames": true
+        },
+        {
+            "matches": [
+                "https://www.youtube.com/live_chat*",
+                "https://www.youtube.com/live_chat_replay*"
+            ],
+            "js": [
+                "contentScript.js"
+            ],
+            "run_at": "document_idle",
+            "all_frames": true
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "injectScript.js"
+            ],
+            "matches": [
+                "https://www.youtube.com/*"
+            ]
+        }
+    ],
+    "action": {
+        "default_popup": "popup.html",
+        "default_title": "YouTube Live Chat Filter"
+    },
+    "icons": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    }
+}
