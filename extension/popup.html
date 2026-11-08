@@ -3,125 +3,159 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=400">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YouTube Live Chat Filter</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 
 <body>
   <div class="container">
-    <!-- ヘッダー -->
+    <!-- Header -->
     <header class="header">
-      <h1>YouTube Live Chat Filter</h1>
+      <div class="logo-group">
+        <div class="logo-badge">YT-FILTER</div>
+        <span class="app-title">Live Chat Filter</span>
+      </div>
+      <div class="header-actions">
+        <span class="version-badge" id="app-version">v1.1.0</span>
+      </div>
     </header>
 
-    <!-- 自分のチャンネル設定セクション -->
-    <section id="self-section" class="section">
-      <h2>自分のチャンネル</h2>
-      <div id="self-not-registered" class="self-register">
-        <p class="info-text">チャンネルを登録してください</p>
-        <div class="input-group">
-          <input type="text" id="self-input" placeholder="URL / @handle / UCxxxx">
-          <button id="self-save-btn" class="btn btn-primary">保存</button>
+    <!-- Navigation Tabs -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" id="tabFilterBtn">チャットフィルタ</button>
+      <button class="tab-btn" id="tabSettingsBtn">環境設定</button>
+    </div>
+
+    <!-- View: Filter Tab -->
+    <div id="viewFilter" class="tab-view active">
+      <!-- Status Messages Card -->
+      <div id="status-section" class="status-container">
+        <div id="status-invalid" class="status-banner error hidden">
+          <span class="status-icon">⚠</span>
+          <span id="status-reason">このページは対象外です</span>
         </div>
-        <p class="hint">例: https://youtube.com/@yourhandle</p>
-      </div>
-      <div id="self-registered" class="self-display hidden">
-        <div class="user-info">
-          <span id="self-channel-id" class="channel-id"></span>
+        <div id="status-replay" class="status-banner info hidden">
+          <span class="status-icon">📼</span>
+          <span>チャットリプレイを検出しました</span>
         </div>
-        <button id="self-change-btn" class="btn btn-small">変更</button>
+        <div id="status-no-self" class="status-banner warning hidden">
+          <span class="status-icon">👤</span>
+          <span>「環境設定」タブで自分のチャンネルを登録してください</span>
+        </div>
+        <div id="status-no-owner" class="status-banner warning hidden">
+          <span class="status-icon">❓</span>
+          <span>配信者を検出できませんでした（バッジで自動判定）</span>
+        </div>
       </div>
-    </section>
 
-    <!-- 状態表示セクション -->
-    <section id="status-section" class="section">
-      <div id="status-invalid" class="status-message hidden">
-        <span class="status-icon">⚠️</span>
-        <span id="status-reason">このページは対象外です</span>
+      <!-- Main Filter Card -->
+      <div id="filter-section" class="card filter-card hidden">
+        <div class="filter-header">
+          <div class="filter-title-group">
+            <span id="toggle-label" class="filter-label">自分以外を非表示</span>
+            <span class="filter-mode-indicator" id="filter-mode-indicator">WHITELIST</span>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="filter-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div id="owner-info" class="owner-meta">
+          <span class="meta-label">配信者 ID:</span>
+          <span id="owner-channel-id" class="channel-badge">取得中...</span>
+        </div>
       </div>
-      <div id="status-replay" class="status-message status-info hidden">
-        <span class="status-icon">📼</span>
-        <span>チャットリプレイを検出しました</span>
-      </div>
-      <div id="status-no-self" class="status-message hidden">
-        <span class="status-icon">👤</span>
-        <span>自分のチャンネルを登録してください</span>
-      </div>
-      <div id="status-no-owner" class="status-message hidden">
-        <span class="status-icon">❓</span>
-        <span>配信者を検出できませんでした</span>
-      </div>
-    </section>
 
-    <!-- フィルタトグルセクション -->
-    <section id="filter-section" class="section hidden">
-      <div class="toggle-container">
-        <span id="toggle-label" class="toggle-label">自分以外を非表示</span>
-        <label class="toggle">
-          <input type="checkbox" id="filter-toggle">
-          <span class="toggle-slider"></span>
-        </label>
+      <!-- Recent Speakers Card -->
+      <div id="speakers-section" class="card list-card hidden">
+        <div class="card-header">
+          <span class="card-title">直近の発言者</span>
+          <span class="card-subtitle">最新 50 件</span>
+        </div>
+        <div id="speakers-list" class="user-list">
+          <p class="empty-message">発言者がいません</p>
+        </div>
       </div>
-      <div id="owner-info" class="owner-info">
-        <span class="label">配信者:</span>
-        <span id="owner-channel-id" class="channel-id"></span>
-      </div>
-    </section>
 
-    <!-- 直近の発言者セクション -->
-    <section id="speakers-section" class="section hidden">
-      <h2>直近の発言者</h2>
-      <div id="speakers-list" class="user-list">
-        <p class="empty-message">発言者がいません</p>
+      <!-- Allowed Users Card (Whitelist) -->
+      <div id="allowed-section" class="card list-card hidden">
+        <div class="card-header">
+          <span class="card-title">許可ユーザー</span>
+          <span class="card-subtitle">表示を許可</span>
+        </div>
+        <div id="allowed-list" class="user-list">
+          <p class="empty-message">許可ユーザーがいません</p>
+        </div>
       </div>
-    </section>
 
-    <!-- 許可ユーザーセクション (ホワイトリスト用) -->
-    <section id="allowed-section" class="section hidden">
-      <h2>許可ユーザー</h2>
-      <div id="allowed-list" class="user-list">
-        <p class="empty-message">許可ユーザーがいません</p>
+      <!-- Blocked Users Card (Blacklist) -->
+      <div id="blocked-section" class="card list-card hidden">
+        <div class="card-header">
+          <span class="card-title">ブロック中ユーザー</span>
+          <span class="card-subtitle">非表示対象</span>
+        </div>
+        <div id="blocked-list" class="user-list">
+          <p class="empty-message">ブロック中のユーザーはいません</p>
+        </div>
       </div>
-    </section>
+    </div>
 
-    <!-- ブロックユーザーセクション (ブラックリスト用) -->
-    <section id="blocked-section" class="section hidden">
-      <h2>ブロックユーザー</h2>
-      <div id="blocked-list" class="user-list">
-        <p class="empty-message">ブロック中のユーザーはいません</p>
+    <!-- View: Settings Tab -->
+    <div id="viewSettings" class="tab-view hidden">
+      <!-- Self Channel Card -->
+      <div id="self-section" class="card form-card">
+        <div class="card-header">
+          <span class="card-title">自分のチャンネル</span>
+        </div>
+        <div id="self-not-registered" class="self-register-block">
+          <p class="input-desc">URL、@handle、またはチャンネルID（UCxxxx）を入力してください</p>
+          <div class="input-row">
+            <input type="text" id="self-input" class="text-input" placeholder="https://youtube.com/@yourhandle" spellcheck="false">
+            <button id="self-save-btn" class="primary-button btn-save">保存</button>
+          </div>
+        </div>
+        <div id="self-registered" class="self-display-block hidden">
+          <div class="user-info">
+            <span class="info-label">登録済み ID:</span>
+            <span id="self-channel-id" class="channel-badge"></span>
+          </div>
+          <button id="self-change-btn" class="secondary-button btn-small">変更</button>
+        </div>
       </div>
-    </section>
 
-    <!-- 設定セクション -->
-    <section id="settings-section" class="section">
-      <h2>設定</h2>
-      <div class="setting-item">
-        <label class="setting-label">フィルタ方式</label>
-        <select id="setting-filter-mode">
-          <option value="whitelist">ホワイトリスト (自分・配信者以外を非表示)</option>
-          <option value="blacklist">ブラックリスト (指定ユーザーのみ非表示)</option>
-        </select>
-      </div>
-      <div class="setting-item" id="moderator-setting-item">
-        <label class="checkbox-label">
-          <input type="checkbox" id="setting-moderator">
-          <span>モデレーターを配信側として扱う</span>
-        </label>
-      </div>
-      <div class="setting-item">
-        <label class="setting-label">起動時の動作</label>
-        <select id="setting-startup">
-          <option value="alwaysOff">毎回OFFで開始</option>
-          <option value="restoreLast">前回の状態を復元</option>
-        </select>
-      </div>
-    </section>
+      <!-- Filter Configuration Card -->
+      <div id="settings-section" class="card form-card">
+        <div class="card-header">
+          <span class="card-title">動作設定</span>
+        </div>
 
-    <!-- フッター -->
-    <footer class="footer">
-      <span class="version" id="app-version">v1.1.0</span>
-    </footer>
+        <div class="form-group">
+          <label class="input-label" for="setting-filter-mode">フィルタ方式</label>
+          <select id="setting-filter-mode" class="select-input">
+            <option value="whitelist">ホワイトリスト (自分・配信者以外を非表示)</option>
+            <option value="blacklist">ブラックリスト (指定ユーザーのみ非表示)</option>
+          </select>
+        </div>
+
+        <div class="toggles-group">
+          <div class="toggle-row" id="moderator-setting-item">
+            <label class="checkbox-container">
+              <input type="checkbox" id="setting-moderator">
+              <span class="checkbox-label">モデレーターを配信側として扱う</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="input-label" for="setting-startup">起動時の動作</label>
+          <select id="setting-startup" class="select-input">
+            <option value="alwaysOff">毎回 OFF で開始</option>
+            <option value="restoreLast">前回の状態を復元</option>
+          </select>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="popup.js"></script>

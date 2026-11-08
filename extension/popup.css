@@ -1,224 +1,313 @@
-/* ========================================
-   YouTube Live Chat Filter - Popup Styles
-   ======================================== */
+:root {
+  /* Discord Profile Dark Theme / Black & White Monotone Gradient */
+  --bg-gradient: linear-gradient(180deg, #2b2d31 0%, #1e1f22 26%, #111214 100%);
+  --bg-primary: #111214;
+  --bg-secondary: rgba(17, 18, 20, 0.85);
+  --bg-card: rgba(24, 25, 28, 0.75);
+  --bg-card-hover: rgba(35, 36, 40, 0.85);
+  --bg-card-active: #313338;
+
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-focus: #ffffff;
+
+  --text-primary: #ffffff;
+  --text-secondary: #dbdee1;
+  --text-muted: #949ba4;
+
+  /* Accent: Monotone Black & White */
+  --accent-primary: #ffffff;
+  --accent-hover: #e3e5e8;
+  --accent-text: #111214;
+
+  --btn-dark-bg: #2b2d31;
+  --btn-dark-hover: #383a40;
+
+  --success-bg: rgba(255, 255, 255, 0.08);
+  --success-border: rgba(255, 255, 255, 0.25);
+  --success-text: #ffffff;
+
+  --info-bg: rgba(59, 130, 246, 0.12);
+  --info-border: rgba(59, 130, 246, 0.35);
+  --info-text: #93c5fd;
+
+  --warning-bg: rgba(234, 179, 8, 0.12);
+  --warning-border: rgba(234, 179, 8, 0.4);
+  --warning-text: #facc15;
+
+  --error-bg: rgba(239, 68, 68, 0.14);
+  --error-border: rgba(239, 68, 68, 0.45);
+  --error-text: #fca5a5;
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Yu Gothic UI", Meiryo, sans-serif;
+}
 
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 body {
-  font-family: 'Segoe UI', 'Meiryo', sans-serif;
+  width: 390px;
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: var(--font-family);
   font-size: 13px;
-  color: #e0e0e0;
-  background-color: #1a1a1a;
-  width: 360px;
-  max-height: 520px;
+  line-height: 1.5;
+  user-select: none;
+  overflow-x: hidden;
+  max-height: 560px;
   overflow-y: auto;
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
 .container {
-  padding: 12px;
-}
-
-/* ヘッダー */
-.header {
-  text-align: center;
-  margin-bottom: 12px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #333;
-}
-
-.header h1 {
-  font-size: 15px;
-  font-weight: 600;
-  color: #ff4444;
-}
-
-/* セクション */
-.section {
-  margin-bottom: 14px;
-  padding: 10px;
-  background-color: #252525;
-  border-radius: 8px;
-}
-
-.section h2 {
-  font-size: 12px;
-  font-weight: 600;
-  color: #aaa;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .hidden {
   display: none !important;
 }
 
-/* 自分のチャンネル登録 */
-.self-register {
-  text-align: center;
-}
-
-.info-text {
-  color: #888;
-  margin-bottom: 8px;
-}
-
-.input-group {
+/* Header */
+.header {
   display: flex;
-  gap: 6px;
-}
-
-.input-group input {
-  flex: 1;
-  padding: 8px 10px;
-  border: 1px solid #444;
-  border-radius: 4px;
-  background-color: #333;
-  color: #fff;
-  font-size: 12px;
-}
-
-.input-group input:focus {
-  outline: none;
-  border-color: #ff4444;
-}
-
-.hint {
-  font-size: 11px;
-  color: #666;
-  margin-top: 6px;
-}
-
-.self-display {
-  display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 }
 
-.user-info {
+.logo-group {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.channel-id {
-  font-family: monospace;
+.logo-badge {
+  background: #ffffff;
+  color: #111214;
+  font-weight: 800;
   font-size: 11px;
-  color: #888;
-  background-color: #333;
-  padding: 2px 6px;
-  border-radius: 3px;
+  letter-spacing: 0.5px;
+  padding: 3px 7px;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
-/* ボタン */
-.btn {
-  padding: 8px 14px;
+.app-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.2px;
+}
+
+.version-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 7px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+}
+
+/* Navigation Tabs */
+.tabs-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: rgba(0, 0, 0, 0.35);
+  padding: 3px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  gap: 4px;
+}
+
+.tab-btn {
+  background: transparent;
   border: none;
-  border-radius: 4px;
+  color: var(--text-muted);
+  padding: 7px 12px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
 }
 
-.btn-primary {
-  background-color: #ff4444;
-  color: #fff;
+.tab-btn:hover {
+  color: var(--text-secondary);
 }
 
-.btn-primary:hover {
-  background-color: #ff5555;
+.tab-btn.active {
+  background-color: #313338;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
-.btn-primary:disabled {
-  background-color: #666;
-  cursor: not-allowed;
+/* Tab Views */
+.tab-view {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: fadeIn 0.2s ease;
 }
 
-.btn-small {
-  padding: 4px 10px;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Cards */
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.card-title {
   font-size: 11px;
-  background-color: #444;
-  color: #ddd;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.btn-small:hover {
-  background-color: #555;
-}
-
-.btn-add {
-  padding: 3px 8px;
+.card-subtitle {
   font-size: 10px;
-  background-color: #2d7d2d;
-  color: #fff;
+  color: var(--text-muted);
 }
 
-.btn-add:hover {
-  background-color: #3a9a3a;
+/* Status Banners */
+.status-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.btn-block {
-  padding: 3px 8px;
-  font-size: 10px;
-  background-color: #7d2d2d;
-  color: #fff;
-}
-
-.btn-block:hover {
-  background-color: #9a3a3a;
-}
-
-.btn-remove {
-  padding: 3px 8px;
-  font-size: 10px;
-  background-color: #555;
-  color: #fff;
-}
-
-.btn-remove:hover {
-  background-color: #666;
-}
-
-/* ステータスメッセージ */
-.status-message {
+.status-banner {
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  font-size: 11px;
+  line-height: 1.4;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 10px;
-  background-color: #333;
-  border-radius: 4px;
-  color: #ffaa00;
 }
 
-.status-info {
-  color: #66b3ff;
-  background-color: #1a2a3a;
+.status-banner.error {
+  background-color: var(--error-bg);
+  border: 1px solid var(--error-border);
+  color: var(--error-text);
+}
+
+.status-banner.warning {
+  background-color: var(--warning-bg);
+  border: 1px solid var(--warning-border);
+  color: var(--warning-text);
+}
+
+.status-banner.info {
+  background-color: var(--info-bg);
+  border: 1px solid var(--info-border);
+  color: var(--info-text);
 }
 
 .status-icon {
-  font-size: 16px;
+  font-size: 14px;
+  flex-shrink: 0;
 }
 
-/* トグルスイッチ */
-.toggle-container {
+/* Filter Card */
+.filter-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-title-group {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
+  gap: 8px;
 }
 
-.toggle {
+.filter-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.filter-mode-indicator {
+  font-size: 9px;
+  font-weight: 800;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-secondary);
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+/* Toggle Switch (Pure White & Dark) */
+.toggle-switch {
   position: relative;
   display: inline-block;
   width: 44px;
   height: 24px;
 }
 
-.toggle input {
+.toggle-switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -231,9 +320,10 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #444;
-  transition: 0.3s;
+  background-color: rgba(255, 255, 255, 0.12);
+  transition: 0.25s ease;
   border-radius: 24px;
+  border: 1px solid var(--border-color);
 }
 
 .toggle-slider:before {
@@ -241,69 +331,70 @@ body {
   content: "";
   height: 18px;
   width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: #fff;
-  transition: 0.3s;
+  left: 2px;
+  bottom: 2px;
+  background-color: #ffffff;
+  transition: 0.25s ease;
   border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
-.toggle input:checked+.toggle-slider {
-  background-color: #ff4444;
+.toggle-switch input:checked + .toggle-slider {
+  background-color: #ffffff;
 }
 
-.toggle input:checked+.toggle-slider:before {
+.toggle-switch input:checked + .toggle-slider:before {
   transform: translateX(20px);
+  background-color: #111214;
 }
 
-.toggle-label {
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.owner-info {
-  margin-top: 10px;
+.owner-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   padding-top: 8px;
-  border-top: 1px solid #333;
+  border-top: 1px solid var(--border-color);
   font-size: 11px;
 }
 
-.owner-info .label {
-  color: #888;
+.meta-label {
+  color: var(--text-muted);
 }
 
-/* ユーザーリスト */
+.channel-badge {
+  font-family: monospace;
+  font-size: 11px;
+  background-color: rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--border-color);
+  padding: 2px 7px;
+  border-radius: 4px;
+  color: #dbdee1;
+}
+
+/* User Lists */
 .user-list {
-  max-height: 120px;
+  max-height: 135px;
   overflow-y: auto;
-}
-
-.user-list::-webkit-scrollbar {
-  width: 6px;
-}
-
-.user-list::-webkit-scrollbar-track {
-  background: #333;
-  border-radius: 3px;
-}
-
-.user-list::-webkit-scrollbar-thumb {
-  background: #555;
-  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-right: 2px;
 }
 
 .user-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 6px 8px;
-  background-color: #333;
-  border-radius: 4px;
-  margin-bottom: 4px;
+  padding: 6px 10px;
+  background-color: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
 }
 
-.user-item:last-child {
-  margin-bottom: 0;
+.user-item:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+  border-color: var(--border-color);
 }
 
 .user-item-info {
@@ -318,13 +409,14 @@ body {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background-color: #555;
+  background-color: rgba(255, 255, 255, 0.1);
   flex-shrink: 0;
 }
 
 .user-name {
   font-size: 12px;
-  color: #ddd;
+  font-weight: 500;
+  color: var(--text-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -332,68 +424,211 @@ body {
 
 .empty-message {
   text-align: center;
-  color: #666;
-  padding: 10px;
+  color: var(--text-muted);
+  padding: 14px 10px;
+  font-size: 11px;
+}
+
+/* Buttons */
+.primary-button {
+  background-color: #ffffff;
+  color: #111214;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
   font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  white-space: nowrap;
 }
 
-/* 設定 */
-.setting-item {
-  margin-bottom: 10px;
+.primary-button:hover {
+  background-color: #e3e5e8;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
 }
 
-.setting-item:last-child {
-  margin-bottom: 0;
+.primary-button:active {
+  transform: scale(0.98);
 }
 
-.checkbox-label {
+.primary-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.secondary-button {
+  background-color: var(--btn-dark-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.secondary-button:hover {
+  background-color: var(--btn-dark-hover);
+  color: #ffffff;
+}
+
+.btn-add {
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 4px 10px;
+  font-size: 10px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-add:hover {
+  background-color: #ffffff;
+  color: #111214;
+}
+
+.btn-block {
+  background-color: var(--error-bg);
+  border: 1px solid var(--error-border);
+  color: var(--error-text);
+  padding: 4px 10px;
+  font-size: 10px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-block:hover {
+  background-color: rgba(239, 68, 68, 0.3);
+}
+
+.btn-remove {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  padding: 4px 8px;
+  font-size: 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-remove:hover {
+  color: var(--error-text);
+  border-color: var(--error-border);
+  background-color: var(--error-bg);
+}
+
+/* Forms & Inputs */
+.form-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.input-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.input-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.input-row {
+  display: flex;
+  gap: 6px;
+}
+
+.text-input, .select-input {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  color: #ffffff;
+  font-size: 12px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.text-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.text-input:focus, .select-input:focus {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.12);
+}
+
+.self-display-block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.info-label {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.toggles-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.checkbox-container {
   display: flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
+  user-select: none;
 }
 
-.checkbox-label input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  accent-color: #ff4444;
+.checkbox-container input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: #ffffff;
+  cursor: pointer;
 }
 
-.setting-label {
-  display: block;
-  color: #aaa;
-  font-size: 11px;
-  margin-bottom: 4px;
-}
-
-select {
-  width: 100%;
-  padding: 6px 8px;
-  border: 1px solid #444;
-  border-radius: 4px;
-  background-color: #333;
-  color: #fff;
+.checkbox-label {
   font-size: 12px;
+  color: var(--text-secondary);
+  transition: color 0.15s ease;
 }
 
-select:focus {
-  outline: none;
-  border-color: #ff4444;
+.checkbox-container:hover .checkbox-label {
+  color: #ffffff;
 }
 
-/* フッター */
-.footer {
-  text-align: center;
-  padding-top: 8px;
-  border-top: 1px solid #333;
-}
-
-.version {
-  font-size: 10px;
-  color: #666;
-}
-
-/* ローディング */
+/* Loading State */
 .loading {
   opacity: 0.5;
   pointer-events: none;

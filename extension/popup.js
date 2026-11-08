@@ -2,6 +2,7 @@
  * YouTube Live Chat Filter - Popup Script
  * 
  * 役割:
+ * - タブ切り替え（フィルタ / 環境設定）
  * - 自分のチャンネル登録UI
  * - フィルタ ON/OFF トグル
  * - ホワイトリスト / ブラックリストのモード切り替え
@@ -14,6 +15,12 @@
 // ========================================
 
 const elements = {
+    // タブ
+    tabFilterBtn: document.getElementById('tabFilterBtn'),
+    tabSettingsBtn: document.getElementById('tabSettingsBtn'),
+    viewFilter: document.getElementById('viewFilter'),
+    viewSettings: document.getElementById('viewSettings'),
+
     // 自分のチャンネル
     selfSection: document.getElementById('self-section'),
     selfNotRegistered: document.getElementById('self-not-registered'),
@@ -35,6 +42,7 @@ const elements = {
     filterSection: document.getElementById('filter-section'),
     filterToggle: document.getElementById('filter-toggle'),
     toggleLabel: document.getElementById('toggle-label'),
+    filterModeIndicator: document.getElementById('filter-mode-indicator'),
     ownerChannelId: document.getElementById('owner-channel-id'),
 
     // 発言者
@@ -55,7 +63,7 @@ const elements = {
     settingModerator: document.getElementById('setting-moderator'),
     settingStartup: document.getElementById('setting-startup'),
 
-    // フッター
+    // ヘッダー
     appVersion: document.getElementById('app-version')
 };
 
@@ -91,8 +99,24 @@ function escapeHtml(str) {
 }
 
 /**
+ * タブ切り替え
+ */
+function switchTab(target) {
+    if (target === 'filter') {
+        elements.tabFilterBtn.classList.add('active');
+        elements.tabSettingsBtn.classList.remove('active');
+        showElement(elements.viewFilter);
+        hideElement(elements.viewSettings);
+    } else {
+        elements.tabSettingsBtn.classList.add('active');
+        elements.tabFilterBtn.classList.remove('active');
+        showElement(elements.viewSettings);
+        hideElement(elements.viewFilter);
+    }
+}
+
+/**
  * content scriptにメッセージを送信
- * watchページの場合はiframe内のcontent scriptにも送信
  */
 async function sendToContentScript(message) {
     if (!currentTab?.id) {
@@ -212,11 +236,13 @@ async function loadSettings() {
 function applyFilterModeUI() {
     if (currentFilterMode === 'blacklist') {
         elements.toggleLabel.textContent = '指定ユーザーを非表示';
+        if (elements.filterModeIndicator) elements.filterModeIndicator.textContent = 'BLACKLIST';
         hideElement(elements.allowedSection);
         showElement(elements.blockedSection);
         hideElement(elements.moderatorSettingItem);
     } else {
         elements.toggleLabel.textContent = '自分以外を非表示';
+        if (elements.filterModeIndicator) elements.filterModeIndicator.textContent = 'WHITELIST';
         showElement(elements.allowedSection);
         hideElement(elements.blockedSection);
         showElement(elements.moderatorSettingItem);
@@ -287,7 +313,7 @@ async function updateStatus() {
         return;
     }
 
-    // 自分のチャンネル未登録（ホワイトリストモード時のみ必須）
+    // 自分のチャンネル未登録（ホワイトリストモード時のみ警告）
     if (currentFilterMode === 'whitelist' && !contentScriptStatus.selfChannelId) {
         showNoSelf();
         return;
@@ -327,7 +353,6 @@ function showFilterUI() {
     hideElement(elements.statusNoSelf);
     hideElement(elements.statusNoOwner);
 
-    // リプレイページならインフォバッジを表示
     if (contentScriptStatus?.isReplayPage) {
         showElement(elements.statusReplay);
     } else {
@@ -340,7 +365,7 @@ function showFilterUI() {
     applyFilterModeUI();
 
     elements.filterToggle.checked = contentScriptStatus.filterEnabled;
-    elements.ownerChannelId.textContent = contentScriptStatus.ownerChannelId || '不明（バッジで自動判定）';
+    elements.ownerChannelId.textContent = contentScriptStatus.ownerChannelId || '自動判定中';
 
     renderAllowedUsers(contentScriptStatus.allowedUsers || []);
     renderBlockedUsers(contentScriptStatus.blockedUsers || []);
@@ -385,7 +410,7 @@ function renderRecentSpeakers(speakers) {
 
     const isBlacklist = currentFilterMode === 'blacklist';
     const actionBtnClass = isBlacklist ? 'btn-block' : 'btn-add';
-    const actionBtnText = isBlacklist ? 'ブロック' : '許可';
+    const actionBtnText = isBlacklist ? 'ブロック' : '+ 許可';
     const actionType = isBlacklist ? 'block' : 'add';
 
     elements.speakersList.innerHTML = filtered.map(speaker => `
@@ -394,7 +419,7 @@ function renderRecentSpeakers(speakers) {
         ${speaker.avatarUrl ? `<img class="user-avatar" src="${escapeHtml(speaker.avatarUrl)}" alt="">` : '<div class="user-avatar"></div>'}
         <span class="user-name" title="${escapeHtml(speaker.channelId)}">${escapeHtml(speaker.displayName)}</span>
       </div>
-      <button class="btn ${actionBtnClass}" data-action="${actionType}">${actionBtnText}</button>
+      <button class="${actionBtnClass}" data-action="${actionType}">${actionBtnText}</button>
     </div>
   `).join('');
 
@@ -431,7 +456,7 @@ function renderAllowedUsers(users) {
         ${user.avatarUrl ? `<img class="user-avatar" src="${escapeHtml(user.avatarUrl)}" alt="">` : '<div class="user-avatar"></div>'}
         <span class="user-name" title="${escapeHtml(user.channelId)}">${escapeHtml(user.displayName)}</span>
       </div>
-      <button class="btn btn-remove" data-action="remove-allowed">解除</button>
+      <button class="btn-remove" data-action="remove-allowed">解除</button>
     </div>
   `).join('');
 
@@ -498,7 +523,7 @@ function renderBlockedUsers(users) {
         ${user.avatarUrl ? `<img class="user-avatar" src="${escapeHtml(user.avatarUrl)}" alt="">` : '<div class="user-avatar"></div>'}
         <span class="user-name" title="${escapeHtml(user.channelId)}">${escapeHtml(user.displayName)}</span>
       </div>
-      <button class="btn btn-remove" data-action="remove-blocked">解除</button>
+      <button class="btn-remove" data-action="remove-blocked">解除</button>
     </div>
   `).join('');
 
@@ -564,7 +589,8 @@ async function toggleFilter(enabled) {
         elements.filterToggle.checked = !enabled;
 
         if (response?.error === 'SELF_NOT_SET' && currentFilterMode === 'whitelist') {
-            alert('自分のチャンネルを登録してください');
+            alert('「環境設定」タブから自分のチャンネルを登録してください');
+            switchTab('settings');
         } else if (response?.error === 'OWNER_UNKNOWN') {
             alert('配信者を検出できませんでした');
         }
@@ -580,6 +606,11 @@ async function toggleFilter(enabled) {
 // ========================================
 
 function setupEventListeners() {
+    // タブ切り替え
+    elements.tabFilterBtn.addEventListener('click', () => switchTab('filter'));
+    elements.tabSettingsBtn.addEventListener('click', () => switchTab('settings'));
+
+    // 自分のチャンネル保存
     elements.selfSaveBtn.addEventListener('click', saveSelfChannel);
 
     elements.selfInput.addEventListener('keypress', (e) => {
@@ -590,10 +621,12 @@ function setupEventListeners() {
 
     elements.selfChangeBtn.addEventListener('click', showSelfNotRegistered);
 
+    // フィルタトグル
     elements.filterToggle.addEventListener('change', (e) => {
         toggleFilter(e.target.checked);
     });
 
+    // 設定変更
     elements.settingFilterMode.addEventListener('change', saveSettings);
     elements.settingModerator.addEventListener('change', saveSettings);
     elements.settingStartup.addEventListener('change', saveSettings);
@@ -604,7 +637,6 @@ function setupEventListeners() {
 // ========================================
 
 async function initialize() {
-    // マニフェストからバージョンを動的反映
     try {
         const manifest = chrome.runtime.getManifest();
         if (elements.appVersion && manifest?.version) {
